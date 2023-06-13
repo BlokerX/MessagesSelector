@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MessagesSelector</string>
+    <string name="action_settings">Settings</string>
+	<string name="button_text">Mój mały przycisk :)</string>
+</resources>

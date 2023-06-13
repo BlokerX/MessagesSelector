@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagesSelector", "MessagesSelector\MessagesSelector.csproj", "{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A1E3A36-4715-4069-80EA-8E6AE9984CE8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9CCA4F3-F0F1-4A99-8697-158E289E2B58}
+	EndGlobalSection
+EndGlobal
