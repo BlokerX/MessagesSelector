@@ -117,7 +117,9 @@ namespace MessagesSelector.Services
             {
                 // Handle exception here.
             }
+#if DEBUG
             DebugWriteContacts();
+#endif
         }
 
         #endregion
