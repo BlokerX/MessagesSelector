@@ -22,8 +22,7 @@ namespace MessagesSelector.Items
                 {
                     foreach (var phone in contact.Phones)
                     {
-                        // todo phone number convert to universal
-                        if (address == phone.PhoneNumber)
+                        if (PhoneNumberConverter(address) == PhoneNumberConverter(phone.PhoneNumber))
                         {
                             Person = contact.DisplayName;
                             return;
@@ -31,6 +30,28 @@ namespace MessagesSelector.Items
                     }
                 }
             }
+        }
+
+        public static string PhoneNumberConverter(string number)
+        {
+            if (number == null)
+                return null;
+
+            string tmp = string.Empty;
+            int i = 0;
+
+            if (number.StartsWith('+'))
+            {
+                i = 3;
+            }
+
+            for (; i < number.Length; i++)
+            {
+                if (number[i] != ' ')
+                    tmp += number[i];
+            }
+
+            return tmp;
         }
 
         public string MessageId { get; private set; }

@@ -39,10 +39,6 @@ namespace MessagesSelector.Services
             return true;
         }
 
-        /// <summary>
-        /// Messages.
-        /// </summary>
-        readonly ObservableCollection<Message> messages = new ObservableCollection<Message>();
 
         /// <summary>
         /// Contacts.
@@ -50,9 +46,11 @@ namespace MessagesSelector.Services
 
         readonly ObservableCollection<Contact> contactsCollect = new ObservableCollection<Contact>();
 
-        public void GetAllSms(Activity activity)
+        public ObservableCollection<Message> GetAllSms(Activity activity)
         {
             RequestObligatoryPermissions(activity);
+            
+            ObservableCollection<Message> messages = new ObservableCollection<Message>();
 
             string INBOX = "content://sms/inbox";
             string[] reqCols = new string[] { "_id", "thread_id", "address", "person", "date", "body", "type" };
@@ -76,7 +74,26 @@ namespace MessagesSelector.Services
                 } while (cursor.MoveToNext());
 
             }
-            DebugWriteSMS();
+            return messages;
+        }
+
+        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string s = null)
+        {
+            if (s == string.Empty)
+                return GetAllSms(activity);
+            
+            ObservableCollection<Message> messages = new ObservableCollection<Message>();
+            foreach (var message in GetAllSms(activity))
+            {
+                if (message.Text.Contains(s))
+                {
+                    messages.Add(message);
+                }
+            }
+#if DEBUG
+            DebugWriteSMS(messages);
+#endif
+            return messages;
         }
 
         #region Call
@@ -106,7 +123,7 @@ namespace MessagesSelector.Services
         #endregion
 
 #if DEBUG
-        public void DebugWriteSMS()
+        public void DebugWriteSMS(ObservableCollection<Message> messages)
         {
             if (messages != null)
                 foreach (var item in messages)
