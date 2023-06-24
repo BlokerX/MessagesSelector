@@ -77,15 +77,16 @@ namespace MessagesSelector.Services
             return messages;
         }
 
-        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string s = null)
+        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string text = null, Date date = null)
         {
-            if (s == string.Empty)
+            if (text == string.Empty &&
+                date == null)
                 return GetAllSms(activity);
             
             ObservableCollection<Message> messages = new ObservableCollection<Message>();
             foreach (var message in GetAllSms(activity))
             {
-                if (message.Text.Contains(s))
+                if (message.Text.Contains(text) && message.Date.CompareTo(date) >= 0)
                 {
                     messages.Add(message);
                 }

@@ -2,5 +2,6 @@
     <string name="app_name">MessagesSelector</string>
     <string name="action_settings">Settings</string>
 	<string name="auto_search_text_box_text">Wyszukaj w wiadomości...</string>
-	<string name="button_text">Mój mały przycisk :)</string>
+	<string name="date_checkbox_text">Filtruj po dacie</string>
+	<string name="button_text">Wyszukaj</string>
 </resources>

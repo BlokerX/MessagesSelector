@@ -8,12 +8,10 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Snackbar;
-using MessagesSelector.Items;
 using MessagesSelector.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Message = MessagesSelector.Items.Message;
 
 namespace MessagesSelector
@@ -39,8 +37,15 @@ namespace MessagesSelector
 
             searchTextBox = FindViewById<Android.Widget.EditText>(Resource.Id.search_text_box);
 
+            dateCheckBox = FindViewById<Android.Widget.CheckBox>(Resource.Id.date_check_box);
+
+            dateCheckBox.CheckedChange += DateCheckBox_CheckedChange;
+
+            searchDatePicker = FindViewById<Android.Widget.DatePicker>(Resource.Id.search_date_picker);
+
             messagesListView = FindViewById<Android.Widget.ListView>(Resource.Id.messages_list);
-            messagesListView.ItemClick += (s, e) => {
+            messagesListView.ItemClick += (s, e) =>
+            {
                 Android.Widget.Toast.MakeText(this, messagesObservableCollection[e.Position].Text, Android.Widget.ToastLength.Long).Show();
             };
 
@@ -59,9 +64,27 @@ namespace MessagesSelector
 
         }
 
-        Android.Widget.Button searchButton;
+        private void DateCheckBox_CheckedChange(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
+        {
+            switch (e.IsChecked)
+            {
+                case true:
+                    searchDatePicker.Visibility = ViewStates.Visible;
+                    break;
+
+                case false:
+                    searchDatePicker.Visibility = ViewStates.Gone;
+                    break;
+            }
+        }
 
         Android.Widget.EditText searchTextBox;
+
+        Android.Widget.CheckBox dateCheckBox;
+
+        Android.Widget.DatePicker searchDatePicker;
+
+        Android.Widget.Button searchButton;
 
         Android.Widget.ListView messagesListView;
 
@@ -97,13 +120,17 @@ namespace MessagesSelector
         private void Button1_Click(object sender, EventArgs e)
         {
             //sort and filtr
-            messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text);
+            if (dateCheckBox.Checked)
+                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text, searchDatePicker.DateTime);
+            else
+                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text);
+
             if (messagesObservableCollection != null)
             {
                 List<string> strings = new List<string>();
-                foreach(var m in messagesObservableCollection)
+                foreach (var m in messagesObservableCollection)
                 {
-                    if(m.Person != null)
+                    if (m.Person != null)
                         strings.Add("[" + m.Person + "] : " + m.Text);
                     else
                         strings.Add("[" + m.Address + "] : " + m.Text);
