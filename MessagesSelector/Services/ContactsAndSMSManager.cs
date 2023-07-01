@@ -77,14 +77,14 @@ namespace MessagesSelector.Services
             return messages;
         }
 
-        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string text = null, Date minDate = null)
+        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string text = null, Date minDate = null, Date maxDate = null)
         {
             if (text == string.Empty &&
-                minDate == null)
+                (maxDate == null || minDate == null))
                 return GetAllSms(activity);
 
             ObservableCollection<Message> messages = new ObservableCollection<Message>();
-            if (minDate == null)
+            if (maxDate == null || maxDate == null)
             {
                 foreach (var message in GetAllSms(activity))
                 {
@@ -100,7 +100,8 @@ namespace MessagesSelector.Services
                 {
 #pragma warning disable CS0618 // Typ lub składowa jest przestarzała
                     if (message.Text.Contains(text) &&
-                        minDate.CompareTo(message.Date) <=0)
+                        minDate.CompareTo(message.Date) <=0 &&
+                        maxDate.CompareTo(message.Date) >=0)
                     {
                         messages.Add(message);
                     }

@@ -41,23 +41,48 @@ namespace MessagesSelector
 
             dateCheckBox.CheckedChange += DateCheckBox_CheckedChange;
 
+            #region Date picker
+
             searchDatePicker = FindViewById<Android.Widget.LinearLayout>(Resource.Id.date_panel);
-            searchDatePicker = FindViewById<Android.Widget.LinearLayout>(Resource.Id.date_panel);
 
-            searchDateYearNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_year);
-            searchDateYearNumberPicker.MinValue = 1960;
-            searchDateYearNumberPicker.MaxValue = 2050;
-            searchDateYearNumberPicker.Value = DateTime.UtcNow.Year;
+            #region Min date
 
-            searchDateMonthNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_month);
-            searchDateMonthNumberPicker.MinValue = 1;
-            searchDateMonthNumberPicker.MaxValue = 12;
-            searchDateMonthNumberPicker.Value = DateTime.UtcNow.Month;
+            searchMinDateYearNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_min_date_picker_year);
+            searchMinDateYearNumberPicker.MinValue = 1960;
+            searchMinDateYearNumberPicker.MaxValue = 2050;
+            searchMinDateYearNumberPicker.Value = 1960;
 
-            searchDateDayNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_day);
-            searchDateDayNumberPicker.MinValue = 1;
-            searchDateDayNumberPicker.MaxValue = 31;
-            searchDateDayNumberPicker.Value = DateTime.UtcNow.Day;
+            searchMinDateMonthNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_min_date_picker_month);
+            searchMinDateMonthNumberPicker.MinValue = 1;
+            searchMinDateMonthNumberPicker.MaxValue = 12;
+            searchMinDateMonthNumberPicker.Value = 1;
+
+            searchMinDateDayNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_min_date_picker_day);
+            searchMinDateDayNumberPicker.MinValue = 1;
+            searchMinDateDayNumberPicker.MaxValue = 31;
+            searchMinDateDayNumberPicker.Value = 1;
+
+            #endregion
+
+            #region Max date
+            searchMaxDateYearNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_max_date_picker_year);
+            searchMaxDateYearNumberPicker.MinValue = 1960;
+            searchMaxDateYearNumberPicker.MaxValue = 2050;
+            searchMaxDateYearNumberPicker.Value = DateTime.UtcNow.Year;
+
+            searchMaxDateMonthNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_max_date_picker_month);
+            searchMaxDateMonthNumberPicker.MinValue = 1;
+            searchMaxDateMonthNumberPicker.MaxValue = 12;
+            searchMaxDateMonthNumberPicker.Value = DateTime.UtcNow.Month;
+
+            searchMaxDateDayNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_max_date_picker_day);
+            searchMaxDateDayNumberPicker.MinValue = 1;
+            searchMaxDateDayNumberPicker.MaxValue = 31;
+            searchMaxDateDayNumberPicker.Value = DateTime.UtcNow.Day;
+
+            #endregion
+
+            #endregion
 
             messagesListView = FindViewById<Android.Widget.ListView>(Resource.Id.messages_list);
             messagesListView.ItemClick += (s, e) =>
@@ -101,13 +126,18 @@ namespace MessagesSelector
 
         Android.Widget.LinearLayout searchDatePicker;
 
+        #region Min Date
+        Android.Widget.NumberPicker searchMinDateYearNumberPicker;
+        Android.Widget.NumberPicker searchMinDateMonthNumberPicker;
+        Android.Widget.NumberPicker searchMinDateDayNumberPicker;
+        #endregion
 
-        Android.Widget.NumberPicker searchDateYearNumberPicker;
 
-        Android.Widget.NumberPicker searchDateMonthNumberPicker;
-
-        Android.Widget.NumberPicker searchDateDayNumberPicker;
-
+        #region Max Date
+        Android.Widget.NumberPicker searchMaxDateYearNumberPicker;
+        Android.Widget.NumberPicker searchMaxDateMonthNumberPicker;
+        Android.Widget.NumberPicker searchMaxDateDayNumberPicker;
+        #endregion
 
         Android.Widget.Button searchButton;
 
@@ -147,8 +177,12 @@ namespace MessagesSelector
             //sort and filtr
             if (dateCheckBox.Checked)
 #pragma warning disable CS0618 // Typ lub składowa jest przestarzała
-                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text, new Java.Util.Date(
-                    searchDateYearNumberPicker.Value - 1900, searchDateMonthNumberPicker.Value - 1, searchDateDayNumberPicker.Value));
+                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(
+                    this,
+                    searchTextBox.Text, 
+                    new Java.Util.Date(searchMinDateYearNumberPicker.Value - 1900, searchMinDateMonthNumberPicker.Value - 1, searchMinDateDayNumberPicker.Value),
+                    new Java.Util.Date(searchMaxDateYearNumberPicker.Value - 1900, searchMaxDateMonthNumberPicker.Value - 1, searchMaxDateDayNumberPicker.Value, 23, 59,59)
+                    );
 #pragma warning restore CS0618 // Typ lub składowa jest przestarzała
             else
                 messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text);

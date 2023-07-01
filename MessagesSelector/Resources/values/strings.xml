@@ -3,5 +3,7 @@
     <string name="action_settings">Settings</string>
 	<string name="auto_search_text_box_text">Wyszukaj w wiadomości...</string>
 	<string name="date_checkbox_text">Filtruj po dacie</string>
+	<string name="min_date_text">Data minimalna:</string>
+	<string name="max_date_text">Data maksymalna:</string>
 	<string name="button_text">Wyszukaj</string>
 </resources>
