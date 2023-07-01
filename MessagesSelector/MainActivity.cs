@@ -41,7 +41,23 @@ namespace MessagesSelector
 
             dateCheckBox.CheckedChange += DateCheckBox_CheckedChange;
 
-            searchDatePicker = FindViewById<Android.Widget.DatePicker>(Resource.Id.search_date_picker);
+            searchDatePicker = FindViewById<Android.Widget.LinearLayout>(Resource.Id.date_panel);
+            searchDatePicker = FindViewById<Android.Widget.LinearLayout>(Resource.Id.date_panel);
+
+            searchDateYearNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_year);
+            searchDateYearNumberPicker.MinValue = 1960;
+            searchDateYearNumberPicker.MaxValue = 2050;
+            searchDateYearNumberPicker.Value = DateTime.UtcNow.Year;
+
+            searchDateMonthNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_month);
+            searchDateMonthNumberPicker.MinValue = 1;
+            searchDateMonthNumberPicker.MaxValue = 12;
+            searchDateMonthNumberPicker.Value = DateTime.UtcNow.Month;
+
+            searchDateDayNumberPicker = FindViewById<Android.Widget.NumberPicker>(Resource.Id.search_date_picker_day);
+            searchDateDayNumberPicker.MinValue = 1;
+            searchDateDayNumberPicker.MaxValue = 31;
+            searchDateDayNumberPicker.Value = DateTime.UtcNow.Day;
 
             messagesListView = FindViewById<Android.Widget.ListView>(Resource.Id.messages_list);
             messagesListView.ItemClick += (s, e) =>
@@ -82,7 +98,16 @@ namespace MessagesSelector
 
         Android.Widget.CheckBox dateCheckBox;
 
-        Android.Widget.DatePicker searchDatePicker;
+
+        Android.Widget.LinearLayout searchDatePicker;
+
+
+        Android.Widget.NumberPicker searchDateYearNumberPicker;
+
+        Android.Widget.NumberPicker searchDateMonthNumberPicker;
+
+        Android.Widget.NumberPicker searchDateDayNumberPicker;
+
 
         Android.Widget.Button searchButton;
 
@@ -121,7 +146,10 @@ namespace MessagesSelector
         {
             //sort and filtr
             if (dateCheckBox.Checked)
-                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text, searchDatePicker.DateTime);
+#pragma warning disable CS0618 // Typ lub składowa jest przestarzała
+                messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text, new Java.Util.Date(
+                    searchDateYearNumberPicker.Value - 1900, searchDateMonthNumberPicker.Value - 1, searchDateDayNumberPicker.Value));
+#pragma warning restore CS0618 // Typ lub składowa jest przestarzała
             else
                 messagesObservableCollection = contactsAndSMSManager.GetMessagesByFiltr(this, searchTextBox.Text);
 

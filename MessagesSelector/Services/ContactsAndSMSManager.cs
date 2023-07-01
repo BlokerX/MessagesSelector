@@ -49,7 +49,7 @@ namespace MessagesSelector.Services
         public ObservableCollection<Message> GetAllSms(Activity activity)
         {
             RequestObligatoryPermissions(activity);
-            
+
             ObservableCollection<Message> messages = new ObservableCollection<Message>();
 
             string INBOX = "content://sms/inbox";
@@ -77,18 +77,34 @@ namespace MessagesSelector.Services
             return messages;
         }
 
-        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string text = null, Date date = null)
+        public ObservableCollection<Message> GetMessagesByFiltr(Activity activity, string text = null, Date minDate = null)
         {
             if (text == string.Empty &&
-                date == null)
+                minDate == null)
                 return GetAllSms(activity);
-            
+
             ObservableCollection<Message> messages = new ObservableCollection<Message>();
-            foreach (var message in GetAllSms(activity))
+            if (minDate == null)
             {
-                if (message.Text.Contains(text) && message.Date.CompareTo(date) >= 0)
+                foreach (var message in GetAllSms(activity))
                 {
-                    messages.Add(message);
+                    if (message.Text.Contains(text))
+                    {
+                        messages.Add(message);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var message in GetAllSms(activity))
+                {
+#pragma warning disable CS0618 // Typ lub składowa jest przestarzała
+                    if (message.Text.Contains(text) &&
+                        minDate.CompareTo(message.Date) <=0)
+                    {
+                        messages.Add(message);
+                    }
+#pragma warning restore CS0618 // Typ lub składowa jest przestarzała
                 }
             }
 #if DEBUG
